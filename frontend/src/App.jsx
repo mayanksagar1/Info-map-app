@@ -1,6 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {MapContainer, TileLayer, Marker, Popup, useMapEvents} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import markerShadowPng from "leaflet/dist/images/marker-shadow.png";
+
+const customIcon = new L.Icon({
+  iconUrl: markerIconPng,
+  shadowUrl: markerShadowPng,
+  iconSize: [25, 41], // Default Leaflet size
+  iconAnchor: [12, 41], // Anchor for proper positioning
+});
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -38,7 +48,7 @@ const App = () => {
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <AddMarker setMarkers={setMarkers} />
       {markers.map((marker, index) => (
-        <Marker key={index} position={[marker.lat, marker.lng]}>
+        <Marker key={index} position={[marker.lat, marker.lng]} icon={customIcon}>
           <Popup>{marker.info}</Popup>
         </Marker>
       ))}
